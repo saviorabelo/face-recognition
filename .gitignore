@@ -1,4 +1,7 @@
 *.mp4
+.vscode/
+*.png
+*.jpg
 
 .env
 # *.npz
