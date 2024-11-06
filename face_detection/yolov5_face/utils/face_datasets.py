@@ -128,9 +128,11 @@ def create_dataloader(
         num_workers=nw,
         sampler=sampler,
         pin_memory=True,
-        collate_fn=LoadFaceImagesAndLabels.collate_fn4
-        if quad
-        else LoadFaceImagesAndLabels.collate_fn,
+        collate_fn=(
+            LoadFaceImagesAndLabels.collate_fn4
+            if quad
+            else LoadFaceImagesAndLabels.collate_fn
+        ),
     )
     return dataloader, dataset
 
@@ -1040,9 +1042,9 @@ def extract_boxes(
     # Convert detection dataset into classification dataset, with one directory per class
 
     path = Path(path)  # images dir
-    shutil.rmtree(path / "classifier") if (
-        path / "classifier"
-    ).is_dir() else None  # remove existing
+    (
+        shutil.rmtree(path / "classifier") if (path / "classifier").is_dir() else None
+    )  # remove existing
     files = list(path.rglob("*.*"))
     n = len(files)  # number of files
     for im_file in tqdm(files, total=n):

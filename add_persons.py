@@ -21,7 +21,9 @@ detector = SCRFD(model_file="face_detection/scrfd/weights/scrfd_2.5g_bnkps.onnx"
 
 # Initialize the face recognizer
 recognizer = iresnet_inference(
-    model_name="r100", path="face_recognition/arcface/weights/arcface_r100.pth", device=device
+    model_name="r100",
+    path="face_recognition/arcface/weights/arcface_r100.pth",
+    device=device,
 )
 
 
@@ -100,7 +102,9 @@ def add_persons(backup_dir, add_persons_dir, faces_save_dir, features_path):
                     face_image = input_image[y1:y2, x1:x2]
 
                     # Path to save the face
-                    path_save_face = os.path.join(person_face_path, f"{number_files}.jpg")
+                    path_save_face = os.path.join(
+                        person_face_path, f"{number_files}.jpg"
+                    )
 
                     # Save the face to the database
                     cv2.imwrite(path_save_face, face_image)

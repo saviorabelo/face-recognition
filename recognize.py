@@ -24,11 +24,15 @@ detector = SCRFD(model_file="face_detection/scrfd/weights/scrfd_2.5g_bnkps.onnx"
 
 # Face recognizer
 recognizer = iresnet_inference(
-    model_name="r100", path="face_recognition/arcface/weights/arcface_r100.pth", device=device
+    model_name="r100",
+    path="face_recognition/arcface/weights/arcface_r100.pth",
+    device=device,
 )
 
 # Load precomputed face features and names
-images_names, images_embs = read_features(feature_path="./datasets/face_features/feature")
+images_names, images_embs = read_features(
+    feature_path="./datasets/face_features/feature"
+)
 
 # Mapping of face IDs to names
 id_face_mapping = {}
@@ -258,9 +262,13 @@ def recognize():
 
         for i in range(len(tracking_bboxes)):
             for j in range(len(detection_bboxes)):
-                mapping_score = mapping_bbox(box1=tracking_bboxes[i], box2=detection_bboxes[j])
+                mapping_score = mapping_bbox(
+                    box1=tracking_bboxes[i], box2=detection_bboxes[j]
+                )
                 if mapping_score > 0.9:
-                    face_alignment = norm_crop(img=raw_image, landmark=detection_landmarks[j])
+                    face_alignment = norm_crop(
+                        img=raw_image, landmark=detection_landmarks[j]
+                    )
 
                     score, name = recognition(face_image=face_alignment)
                     if name is not None:

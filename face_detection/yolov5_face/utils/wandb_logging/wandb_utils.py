@@ -109,9 +109,11 @@ class WandbLogger:
                 wandb.init(
                     config=opt,
                     resume="allow",
-                    project="YOLOv5"
-                    if opt.project == "runs/train"
-                    else Path(opt.project).stem,
+                    project=(
+                        "YOLOv5"
+                        if opt.project == "runs/train"
+                        else Path(opt.project).stem
+                    ),
                     name=name,
                     job_type=job_type,
                     id=run_id,
@@ -338,9 +340,13 @@ class WandbLogger:
             else:
                 artifact.add_file(img_file, name="data/images/" + Path(img_file).name)
                 label_file = Path(img2label_paths([img_file])[0])
-                artifact.add_file(
-                    str(label_file), name="data/labels/" + label_file.name
-                ) if label_file.exists() else None
+                (
+                    artifact.add_file(
+                        str(label_file), name="data/labels/" + label_file.name
+                    )
+                    if label_file.exists()
+                    else None
+                )
         table = wandb.Table(columns=["id", "train_image", "Classes", "name"])
         class_set = wandb.Classes(
             [{"id": id, "name": name} for id, name in class_to_id.items()]
